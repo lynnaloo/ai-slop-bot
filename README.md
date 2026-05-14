@@ -34,4 +34,4 @@ cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload
 cd frontend && npm install && npm run dev
 ```
 
-See [plan.md](plan.md) for full architecture details.
+See [plans/project-plan.md](plans/project-plan.md) for full architecture details.
