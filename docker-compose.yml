@@ -1,0 +1,19 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    environment:
+      RUBRIC_PATH: /app/rubric.yaml
+      PORT: "8080"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - api

@@ -1,0 +1,85 @@
+version: "1.0.0"
+description: "AI Slop Detection Rubric"
+# Weights must sum to 1.0 (loader auto-normalizes with a warning if not)
+# Gemini scores each category 0–10; composite = sum(score * weight) * 10
+# applies_to: list of input types this category is relevant for [text, url, image]
+
+categories:
+  - id: generic_phrasing
+    label: "Generic Phrasing"
+    weight: 0.20
+    applies_to: [text, url]
+    prompt: |
+      Score 0–10: How much does this content use hollow, generic filler language?
+      Look for: "in today's fast-paced world", "it's more important than ever",
+      "game-changer", "seamlessly", "leverage", "robust", "at the end of the day",
+      "look no further", "dive in", "in conclusion".
+      0 = natural specific language throughout, 10 = nearly every sentence uses AI-typical filler.
+
+  - id: corporate_buzzwords
+    label: "Corporate Buzzword Density"
+    weight: 0.15
+    applies_to: [text, url]
+    prompt: |
+      Score 0–10: How saturated is this content with corporate/marketing buzzwords?
+      Look for: "synergy", "ecosystem", "paradigm shift", "thought leadership",
+      "holistic approach", "innovative solution", "value proposition", "disruptive",
+      "empower", "unlock potential", "scalable", "next-generation".
+      0 = natural human language, 10 = buzzword bingo throughout.
+
+  - id: structural_uniformity
+    label: "Suspiciously Uniform Structure"
+    weight: 0.15
+    applies_to: [text, url]
+    prompt: |
+      Score 0–10: Does the content follow an unnaturally formulaic structure?
+      Look for: rigid intro/3-point body/conclusion pattern, every section the same
+      length, perfectly balanced pros/cons lists, identical sentence rhythm throughout,
+      bullet points that all have the same length and format.
+      0 = organic and varied structure, 10 = clearly generated from a template.
+
+  - id: hedging_language
+    label: "Excessive Hedging & Disclaimers"
+    weight: 0.10
+    applies_to: [text, url]
+    prompt: |
+      Score 0–10: How much unnecessary hedging, qualifying, or disclaimer language is present?
+      Look for: "it's worth noting", "it's important to remember", "please consult a professional",
+      "results may vary", overuse of "however", "that said", "on the other hand" without
+      genuine contrast, constant reminders that the topic is complex.
+      0 = direct confident writing, 10 = every claim immediately hedged or disclaimed.
+
+  - id: voiceless_writing
+    label: "Grammatically Perfect but Voiceless"
+    weight: 0.15
+    applies_to: [text, url]
+    prompt: |
+      Score 0–10: Is the writing grammatically immaculate but completely devoid of
+      personality, humor, opinion, or human idiosyncrasy?
+      Real human writing has quirks, rhetorical choices, and a recognizable voice.
+      AI text is often technically correct but reads like nobody actually wrote it.
+      0 = clear distinctive human voice, 10 = bland, impersonal, and personality-free throughout.
+
+  - id: image_artifacts
+    label: "AI Image Artifacts"
+    weight: 0.15
+    applies_to: [image, url]
+    prompt: |
+      Score 0–10: Does this image show visual artifacts typical of AI image generators?
+      Look for: hands with wrong or extra fingers, garbled or nonsensical text rendered
+      in the image, teeth or hair that merge unnaturally, backgrounds that dissolve into
+      noise or repetitive patterns, faces that are too symmetrically perfect, skin that
+      looks digitally smoothed, physics-defying objects, diffusion model watermark patterns.
+      0 = clearly photographic or hand-drawn with no artifacts, 10 = many AI artifact signatures.
+
+  - id: stock_aesthetic
+    label: "Stock Photo / AI Studio Aesthetic"
+    weight: 0.10
+    applies_to: [image, url]
+    prompt: |
+      Score 0–10: Does this image have the unnaturally clean, AI-generated "professional" look?
+      Look for: soft uniform studio lighting with no harsh shadows, people with perfect teeth
+      smiling at the camera in an office setting, implausibly pristine environments, skin
+      tones that appear digitally smoothed, obvious diversity-checkbox casting, stock-photo
+      compositions that feel posed and corporate rather than candid.
+      0 = candid, artistic, or clearly real-world photography, 10 = pure stock/AI aesthetic.
