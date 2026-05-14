@@ -6,15 +6,23 @@ Available as a **web app** and a **Slack bot** (`/slopcheck`, `@slop-bot`, or au
 
 ## Default Rubric
 
-| Category | Weight | Input |
+Tuned for evaluating demos and sample apps across two failure tiers.
+
+**Tier 1 — Polished but Hollow** (well-prompted, functional, but unmodified)
+
+| Category | Weight | What It Detects |
 |---|---|---|
-| Generic Phrasing | 20% | text, url |
-| Corporate Buzzword Density | 15% | text, url |
-| Suspiciously Uniform Structure | 15% | text, url |
-| Excessive Hedging | 10% | text, url |
-| Grammatically Perfect but Voiceless | 15% | text, url |
-| AI Image Artifacts | 15% | image, url |
-| Stock Photo / AI Studio Aesthetic | 10% | image, url |
+| No Signs of Human Iteration | 20% | Suspiciously frictionless — no commented-out code, no pivots, no "why" anywhere |
+| No Real Problem Being Solved | 20% | Todo/weather/blog apps that exist to demo a tech, not solve a need |
+| Absent Engineering Voice | 10% | Every decision is the blandest default; no opinions or tradeoffs visible |
+
+**Tier 2 — Generated and Abandoned** (shipped without review or testing)
+
+| Category | Weight | What It Detects |
+|---|---|---|
+| Broken or Incomplete Implementation | 20% | Missing imports, unwired handlers, references to non-existent endpoints |
+| Placeholder & Fake Data | 15% | Lorem ipsum, John Doe, YOUR_API_KEY_HERE left in |
+| Cosmetic Error Handling | 15% | `catch (e) {}`, spinners that never resolve, silent failures |
 
 Customize categories and weights in [`backend/rubric.yaml`](backend/rubric.yaml).
 

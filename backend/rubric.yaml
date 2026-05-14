@@ -1,85 +1,118 @@
-version: "1.0.0"
-description: "AI Slop Detection Rubric"
+version: "2.0.0"
+description: "AI Slop Detection Rubric — Demo & Sample App Evaluation"
 # Weights must sum to 1.0 (loader auto-normalizes with a warning if not)
 # Gemini scores each category 0–10; composite = sum(score * weight) * 10
 # applies_to: list of input types this category is relevant for [text, url, image]
+#
+# Two failure tiers:
+#   polished_but_hollow  — well-prompted, functional, but unmodified and lacking human judgment
+#   generated_and_abandoned — shipped without review; may not work, may not solve any real problem
 
 categories:
-  - id: generic_phrasing
-    label: "Generic Phrasing"
+
+  # ── TIER 1: Polished but Hollow ─────────────────────────────────────────────
+  # Generated output that runs and looks good but shows no sign a human applied
+  # judgment, made tradeoffs, or solved a real problem.
+
+  - id: iteration_absence
+    label: "No Signs of Human Iteration"
+    group: polished_but_hollow
     weight: 0.20
     applies_to: [text, url]
     prompt: |
-      Score 0–10: How much does this content use hollow, generic filler language?
-      Look for: "in today's fast-paced world", "it's more important than ever",
-      "game-changer", "seamlessly", "leverage", "robust", "at the end of the day",
-      "look no further", "dive in", "in conclusion".
-      0 = natural specific language throughout, 10 = nearly every sentence uses AI-typical filler.
+      Score 0–10: Does this code or content show zero evidence that a human made decisions,
+      changed direction, or iterated on it?
+      Real work has visible friction: commented-out experiments, a TODO that was never cleaned up,
+      an unusual library choice with no explanation, a component that's slightly inconsistent
+      because someone pivoted. AI-generated output is frictionless — every function the same
+      length, every pattern applied uniformly, no dead ends anywhere.
+      Look for: perfectly uniform code style throughout with no exceptions, no commented-out
+      code, no "why" in any comment (only "what"), identical depth of implementation across
+      every feature, zero signs of a decision being revisited.
+      0 = clear evidence of human iteration and judgment, 10 = suspiciously frictionless throughout.
 
-  - id: corporate_buzzwords
-    label: "Corporate Buzzword Density"
-    weight: 0.15
+  - id: real_problem_solved
+    label: "No Real Problem Being Solved"
+    group: polished_but_hollow
+    weight: 0.20
     applies_to: [text, url]
     prompt: |
-      Score 0–10: How saturated is this content with corporate/marketing buzzwords?
-      Look for: "synergy", "ecosystem", "paradigm shift", "thought leadership",
-      "holistic approach", "innovative solution", "value proposition", "disruptive",
-      "empower", "unlock potential", "scalable", "next-generation".
-      0 = natural human language, 10 = buzzword bingo throughout.
+      Score 0–10: Does this appear to be a solution looking for a problem — a demo that
+      exists to showcase a technology rather than address any real human need?
+      Look for: generic domain choices (todo app, weather app, blog, e-commerce template)
+      with no specific context or constraint that explains why this particular thing was built;
+      a README that describes what the app does but never mentions who it's for or what problem
+      it solves; features that exist to demonstrate a capability rather than because a user needs
+      them; suspiciously round scope ("CRUD for any entity", "supports any theme").
+      0 = clearly solves a specific real problem for identifiable users, 10 = pure tech demo
+      with no grounding in any actual need.
 
-  - id: structural_uniformity
-    label: "Suspiciously Uniform Structure"
-    weight: 0.15
-    applies_to: [text, url]
-    prompt: |
-      Score 0–10: Does the content follow an unnaturally formulaic structure?
-      Look for: rigid intro/3-point body/conclusion pattern, every section the same
-      length, perfectly balanced pros/cons lists, identical sentence rhythm throughout,
-      bullet points that all have the same length and format.
-      0 = organic and varied structure, 10 = clearly generated from a template.
-
-  - id: hedging_language
-    label: "Excessive Hedging & Disclaimers"
+  - id: voiceless_decisions
+    label: "Absent Engineering Voice"
+    group: polished_but_hollow
     weight: 0.10
     applies_to: [text, url]
     prompt: |
-      Score 0–10: How much unnecessary hedging, qualifying, or disclaimer language is present?
-      Look for: "it's worth noting", "it's important to remember", "please consult a professional",
-      "results may vary", overuse of "however", "that said", "on the other hand" without
-      genuine contrast, constant reminders that the topic is complex.
-      0 = direct confident writing, 10 = every claim immediately hedged or disclaimed.
+      Score 0–10: Is there any evidence that a human engineer made opinionated choices
+      and can defend them — or does every decision feel like the default?
+      Real engineers have opinions: they pick an unusual library and mention why, they
+      structure a module differently than the obvious way, they leave a comment explaining
+      a non-obvious tradeoff. AI-generated code picks the most common, most "correct-looking"
+      option every time with no personality or justification.
+      Look for: all default framework choices with no deviations; no architectural comments
+      explaining why something is structured a particular way; README that never says
+      "I chose X over Y because..."; uniform naming conventions that feel auto-generated.
+      0 = clear opinionated choices with reasoning visible, 10 = every decision is the
+      blandest possible default with no voice anywhere.
 
-  - id: voiceless_writing
-    label: "Grammatically Perfect but Voiceless"
+  # ── TIER 2: Generated and Abandoned ─────────────────────────────────────────
+  # Output shipped without review — may not run, may not do what it claims,
+  # placeholder content was never replaced.
+
+  - id: broken_or_incomplete
+    label: "Broken or Incomplete Implementation"
+    group: generated_and_abandoned
+    weight: 0.20
+    applies_to: [text, url]
+    prompt: |
+      Score 0–10: Does the code contain signs it was never run, reviewed, or completed?
+      Look for: missing imports or references to modules that don't exist; functions that are
+      defined but never wired up to anything; event handlers that are attached but do nothing;
+      API calls to endpoints that aren't implemented; environment variables referenced but
+      never documented; configuration that references files that aren't included;
+      components rendered in the UI that have no backing logic; hardcoded ports, paths, or
+      credentials that would break in any real environment.
+      0 = complete, wired up, and clearly runnable, 10 = multiple broken or unfinished
+      connections that suggest the code was never actually executed.
+
+  - id: fake_data_density
+    label: "Placeholder & Fake Data"
+    group: generated_and_abandoned
     weight: 0.15
     applies_to: [text, url]
     prompt: |
-      Score 0–10: Is the writing grammatically immaculate but completely devoid of
-      personality, humor, opinion, or human idiosyncrasy?
-      Real human writing has quirks, rhetorical choices, and a recognizable voice.
-      AI text is often technically correct but reads like nobody actually wrote it.
-      0 = clear distinctive human voice, 10 = bland, impersonal, and personality-free throughout.
+      Score 0–10: How much placeholder or obviously fake data was left in the code or content?
+      Look for: Lorem ipsum text; placeholder names like "John Doe", "Jane Smith", "User 1";
+      fake companies like "Acme Corp", "Example Inc"; placeholder emails like
+      "user@example.com", "test@test.com"; hardcoded fake API keys or tokens
+      (e.g. "YOUR_API_KEY_HERE", "sk-xxxx"); TODO comments marking unimplemented features
+      that are presented as if they work; placeholder images (gray boxes, "image goes here");
+      sample data arrays that are clearly invented and would never reflect real usage.
+      0 = all data is real, realistic, or clearly labeled as example data, 10 = pervasive
+      placeholders that were never replaced before shipping.
 
-  - id: image_artifacts
-    label: "AI Image Artifacts"
+  - id: error_handling_quality
+    label: "Cosmetic Error Handling"
+    group: generated_and_abandoned
     weight: 0.15
-    applies_to: [image, url]
+    applies_to: [text, url]
     prompt: |
-      Score 0–10: Does this image show visual artifacts typical of AI image generators?
-      Look for: hands with wrong or extra fingers, garbled or nonsensical text rendered
-      in the image, teeth or hair that merge unnaturally, backgrounds that dissolve into
-      noise or repetitive patterns, faces that are too symmetrically perfect, skin that
-      looks digitally smoothed, physics-defying objects, diffusion model watermark patterns.
-      0 = clearly photographic or hand-drawn with no artifacts, 10 = many AI artifact signatures.
-
-  - id: stock_aesthetic
-    label: "Stock Photo / AI Studio Aesthetic"
-    weight: 0.10
-    applies_to: [image, url]
-    prompt: |
-      Score 0–10: Does this image have the unnaturally clean, AI-generated "professional" look?
-      Look for: soft uniform studio lighting with no harsh shadows, people with perfect teeth
-      smiling at the camera in an office setting, implausibly pristine environments, skin
-      tones that appear digitally smoothed, obvious diversity-checkbox casting, stock-photo
-      compositions that feel posed and corporate rather than candid.
-      0 = candid, artistic, or clearly real-world photography, 10 = pure stock/AI aesthetic.
+      Score 0–10: Is the error handling cosmetic — present to look correct but useless in practice?
+      Look for: empty catch blocks (catch (e) {}) or catch blocks that only log to console;
+      error states in the UI that are never actually triggered by any real error path;
+      loading states that show a spinner but never resolve to an error view;
+      API calls with no timeout or retry logic and no user-facing error message;
+      form validation that runs client-side but the same data is accepted unchecked on the backend;
+      error messages that say "Something went wrong" with no actionable information.
+      0 = thoughtful error handling that would actually help a user recover, 10 = error
+      handling is purely decorative and would fail silently in any real failure scenario.

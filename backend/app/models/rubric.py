@@ -8,6 +8,7 @@ InputType = Literal["text", "url", "image"]
 class RubricCategory(BaseModel):
     id: str
     label: str
+    group: str | None = None
     weight: float
     applies_to: list[InputType]
     prompt: str
