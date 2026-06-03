@@ -1,53 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #f9fafb;
-  color: #111827;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fafaf8;
+  color: #1a1a1a;
+  min-height: 100vh;
 }
 
 .app-main {
-  max-width: 680px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
+  padding: 48px 24px 100px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
 .app-header {
   text-align: center;
+  padding-bottom: 8px;
+}
+
+.app-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #ff4e00;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
 }
 
 .app-title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 800;
-  margin: 0;
-  color: #111827;
+  margin: 0 0 10px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #1a1a1a;
+}
+
+.app-title span {
+  color: #ff4e00;
 }
 
 .app-subtitle {
-  margin: 6px 0 0;
-  color: #6b7280;
-  font-size: 1rem;
+  margin: 0;
+  color: #6b6b6b;
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
 .app-card {
   background: #fff;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 2px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 4px 4px 0px #1a1a1a;
 }
 
 .app-error {
   padding: 14px 16px;
-  background: #fef2f2;
-  border: 1.5px solid #fecaca;
-  border-radius: 8px;
-  color: #dc2626;
+  background: #fff0ed;
+  border: 2px solid #ff4e00;
+  border-radius: 10px;
+  color: #c13a00;
   font-size: 0.9rem;
+  font-weight: 500;
 }

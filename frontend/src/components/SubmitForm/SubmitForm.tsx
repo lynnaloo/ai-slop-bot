@@ -60,7 +60,7 @@ export function SubmitForm({ onSubmit, isLoading }: Props) {
         <input
           className="input-field"
           type="url"
-          placeholder="https://example.com/article"
+          placeholder="https://that-suspicious-medium-post.com"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           required
@@ -70,7 +70,7 @@ export function SubmitForm({ onSubmit, isLoading }: Props) {
       {tab === "text" && (
         <textarea
           className="input-field input-textarea"
-          placeholder="Paste the text you want to check for AI slop..."
+          placeholder="Paste the text here... In today's fast-paced world, it's more important than ever to leverage synergistic solutions..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={8}
@@ -94,15 +94,15 @@ export function SubmitForm({ onSubmit, isLoading }: Props) {
             onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
           />
           {imageFile ? (
-            <p className="dropzone-name">{imageFile.name}</p>
+            <p className="dropzone-name">📎 {imageFile.name}</p>
           ) : (
-            <p>Drop an image here or click to browse</p>
+            <p>🖼️ Drop a suspicious image here<br /><small>or click to browse</small></p>
           )}
         </div>
       )}
 
       <button className="submit-btn" type="submit" disabled={!canSubmit}>
-        {isLoading ? "Analyzing…" : "Check for Slop"}
+        {isLoading ? "🔍 Sniffing for slop…" : "🚨 Detect Slop"}
       </button>
     </form>
   );

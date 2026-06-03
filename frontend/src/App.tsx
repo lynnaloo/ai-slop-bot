@@ -12,9 +12,11 @@ function SlopDetector() {
   return (
     <main className="app-main">
       <header className="app-header">
-        <h1 className="app-title">AI Slop Detector</h1>
+        <span className="app-eyebrow">🤖 Slop Detector 3000</span>
+        <h1 className="app-title">Is it <span>slop</span>?</h1>
         <p className="app-subtitle">
-          Score content 0–100 for signs of low-quality AI generation
+          Paste a URL, drop an image, or throw in some text.<br />
+          We'll tell you if a robot phoned it in.
         </p>
       </header>
 

@@ -7,9 +7,9 @@ interface Props {
 }
 
 function barColor(score: number): string {
-  if (score <= 3) return "#22c55e";
-  if (score <= 6) return "#f59e0b";
-  return "#ef4444";
+  if (score <= 3) return "#16a34a";
+  if (score <= 6) return "#d97706";
+  return "#ff4e00";
 }
 
 function CategoryRow({ cat }: { cat: CategoryResult }) {
@@ -26,7 +26,9 @@ function CategoryRow({ cat }: { cat: CategoryResult }) {
             style={{ width: `${pct}%`, background: barColor(cat.raw_score) }}
           />
         </div>
-        <span className="cat-score">{cat.raw_score}/10</span>
+        <span className="cat-score" style={{ color: barColor(cat.raw_score) }}>
+          {cat.raw_score}/10
+        </span>
         <span className="cat-chevron">{expanded ? "▲" : "▼"}</span>
       </button>
       {expanded && cat.reasoning && (
@@ -36,13 +38,33 @@ function CategoryRow({ cat }: { cat: CategoryResult }) {
   );
 }
 
+const TIER1_IDS = new Set(["iteration_absence", "real_problem_solved", "voiceless_decisions"]);
+
 export function CategoryBreakdown({ categories }: Props) {
+  const tier1 = categories.filter((c) => TIER1_IDS.has(c.id));
+  const tier2 = categories.filter((c) => !TIER1_IDS.has(c.id));
+
   return (
     <div className="breakdown">
-      <h3 className="breakdown-title">Category Breakdown</h3>
-      {categories.map((cat) => (
-        <CategoryRow key={cat.id} cat={cat} />
-      ))}
+      <p className="breakdown-title">Category Breakdown</p>
+
+      {tier1.length > 0 && (
+        <div className="breakdown-group">
+          <span className="breakdown-group-label breakdown-group-label--tier1">
+            ✨ Polished but Hollow
+          </span>
+          {tier1.map((cat) => <CategoryRow key={cat.id} cat={cat} />)}
+        </div>
+      )}
+
+      {tier2.length > 0 && (
+        <div className="breakdown-group">
+          <span className="breakdown-group-label breakdown-group-label--tier2">
+            💀 Generated & Abandoned
+          </span>
+          {tier2.map((cat) => <CategoryRow key={cat.id} cat={cat} />)}
+        </div>
+      )}
     </div>
   );
 }

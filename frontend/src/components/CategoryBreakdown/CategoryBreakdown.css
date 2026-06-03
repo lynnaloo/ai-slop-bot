@@ -3,68 +3,107 @@
 }
 
 .breakdown-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #374151;
-  margin: 0 0 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin: 0 0 14px;
+}
+
+.breakdown-group {
+  margin-bottom: 20px;
+}
+
+.breakdown-group-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.breakdown-group-label--tier1 {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.breakdown-group-label--tier2 {
+  background: #ffe4e6;
+  color: #9f1239;
 }
 
 .cat-row {
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f0;
   padding: 6px 0;
+}
+
+.cat-row:last-child {
+  border-bottom: none;
 }
 
 .cat-header {
   width: 100%;
   display: grid;
-  grid-template-columns: 220px 1fr 52px 20px;
+  grid-template-columns: 1fr auto 52px 16px;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 6px 0;
   text-align: left;
+  font-family: inherit;
+}
+
+.cat-header:hover .cat-label {
+  color: #ff4e00;
 }
 
 .cat-label {
   font-size: 0.875rem;
+  font-weight: 500;
   color: #374151;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  transition: color 0.15s;
 }
 
 .cat-bar-wrap {
-  background: #e5e7eb;
-  border-radius: 4px;
-  height: 8px;
+  background: #f3f4f0;
+  border-radius: 999px;
+  height: 6px;
   overflow: hidden;
+  min-width: 80px;
 }
 
 .cat-bar {
   height: 100%;
-  border-radius: 4px;
-  transition: width 0.4s ease;
+  border-radius: 999px;
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .cat-score {
   font-size: 0.8rem;
-  font-weight: 600;
-  color: #6b7280;
+  font-weight: 700;
+  color: #374151;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .cat-chevron {
-  font-size: 0.6rem;
-  color: #9ca3af;
+  font-size: 0.55rem;
+  color: #c4c4c0;
 }
 
 .cat-reasoning {
-  font-size: 0.8rem;
-  color: #6b7280;
-  margin: 4px 0 8px 0;
-  padding-left: 8px;
-  border-left: 3px solid #e5e7eb;
-  line-height: 1.5;
+  font-size: 0.82rem;
+  color: #6b6b6b;
+  margin: 4px 0 10px 0;
+  padding: 10px 12px;
+  background: #fafaf8;
+  border-radius: 8px;
+  border-left: 3px solid #ff4e00;
+  line-height: 1.6;
 }

@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/api": "http://localhost:8000",
+      "/api": "https://ai-slop-api-lxxfdfgvoq-uc.a.run.app",  // dev proxy to Cloud Run
     },
   },
 });
