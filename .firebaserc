@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "ehc-c-buskey-506b97"
+  },
+  "targets": {
+    "ehc-c-buskey-506b97": {
+      "hosting": {
+        "ai-slop-detector": [
+          "ai-slop-detector"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
