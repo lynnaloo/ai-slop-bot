@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20"
+  },
   "hosting": {
     "target": "ai-slop-detector",
     "public": "frontend/dist",
@@ -6,10 +10,8 @@
     "rewrites": [
       {
         "source": "/api/**",
-        "run": {
-          "serviceId": "ai-slop-api",
-          "region": "us-central1"
-        }
+        "function": "api",
+        "region": "us-central1"
       },
       {
         "source": "**",

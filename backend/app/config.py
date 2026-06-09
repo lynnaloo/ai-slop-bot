@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     slack_auto_scan_channels: str = ""  # comma-separated channel IDs
     auto_scan_threshold: int = 70
 
-    cors_origins: str = "http://localhost:5173"
+    cors_origins: str = "http://localhost:5173,https://ai-slop-detector.web.app,https://ehc-c-buskey-506b97.web.app"
     port: int = 8080
 
     @property

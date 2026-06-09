@@ -1,5 +1,7 @@
 # Secrets — never commit
 .env
+.env.local
+frontend/.env.local
 *.pem
 *.key
 
